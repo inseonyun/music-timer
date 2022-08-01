@@ -27,6 +27,10 @@ class Fragment_home : Fragment() {
     var now_min: Long = 0
     var now_sec: Long = 0
 
+    // progress Value
+    var first_progress_value = 0
+    var now_progress_value = 0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +57,12 @@ class Fragment_home : Fragment() {
                     now_min = binding.etMin.text.toString().toLong()
 
                     val totalTime = ((now_hour * 60 * 60 * 1000) + (now_min * 60 * 1000) + (now_sec * 1000))
+
+                    // set Progressbar
+                    first_progress_value = totalTime.toInt() / 1000
+                    now_progress_value = first_progress_value
+                    binding.proressbar.progress = 100
+
                     timer_start(totalTime)
                 }
                 else
@@ -81,6 +91,11 @@ class Fragment_home : Fragment() {
                     else
                     {
                         val totalTime = ((int_hour * 60 * 60 * 1000) + (int_min * 60 * 1000)).toLong()
+
+                        // set Progressbar
+                        first_progress_value = totalTime.toInt() / 1000
+                        now_progress_value = first_progress_value
+                        binding.proressbar.progress = 100
 
                         timer_start(totalTime)
                     }
@@ -159,6 +174,10 @@ class Fragment_home : Fragment() {
                 {
                     str_sec = "0" + str_sec
                 }
+
+                // set Progressbar
+                now_progress_value--
+                binding.proressbar.progress = (now_progress_value.toDouble() / first_progress_value.toDouble() * 100.0).toInt()
 
                 binding.etHour.setText(str_hour)
                 binding.etMin.setText(str_min)

@@ -10,24 +10,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ProgressBar
+            android:id="@+id/proressbar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:indeterminate="false"
+            android:progressBackgroundTint="#4A716F6F"
+            android:progressDrawable="@drawable/circle_progressbar"
+            android:progressTint="#4A4A4A"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintBottom_toBottomOf="@+id/proressbar"
+            app:layout_constraintEnd_toEndOf="@+id/proressbar"
+            app:layout_constraintStart_toStartOf="@+id/proressbar"
+            app:layout_constraintTop_toTopOf="@+id/proressbar">
 
             <EditText
                 android:id="@+id/et_hour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="00"
-                android:textSize="30sp"
                 android:inputType="number"
-                android:maxLength="2"/>
+                android:maxLength="2"
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -40,9 +54,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="00"
-                android:textSize="30sp"
                 android:inputType="number"
-                android:maxLength="2" />
+                android:maxLength="2"
+                android:textSize="30sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -55,11 +69,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="00"
-                android:textSize="30sp"/>
+                android:textSize="30sp" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
