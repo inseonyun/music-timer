@@ -1,5 +1,9 @@
 package com.music_timer
 
+import android.content.Context
+import android.media.AudioAttributes
+import android.media.AudioFocusRequest
+import android.media.AudioManager
 import android.os.Bundle
 import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
@@ -190,8 +194,25 @@ class Fragment_home : Fragment() {
 
                 timer_run_checker = false
                 countDownTimer = null
+
+                // music stop
+                stop_music()
+
                 Toast.makeText(context, "타이머 종료", Toast.LENGTH_SHORT).show()
             }
         }.start()
+    }
+
+    fun stop_music()
+    {
+        val mAudioManager: AudioManager = context?.applicationContext?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        mAudioManager.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN) // 오디오 포커스를 영속적으로 획득
+            .setAudioAttributes(AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                .setUsage(AudioAttributes.USAGE_MEDIA)
+                .build())
+            .setAcceptsDelayedFocusGain(true)
+            .setOnAudioFocusChangeListener {} // 위 소스와 마찬가지 이유로 listner 구현 안함.
+            .build())
     }
 }
