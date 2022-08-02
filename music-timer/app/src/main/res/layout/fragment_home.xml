@@ -15,10 +15,11 @@
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="250dp"
             android:layout_height="250dp"
+            android:layout_marginBottom="140dp"
             android:indeterminate="false"
             android:progressBackgroundTint="#4A716F6F"
             android:progressDrawable="@drawable/circle_progressbar"
-            android:progressTint="#4A4A4A"
+            android:progressTint="@color/user_progress"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -137,8 +138,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="타이머 시작"
-                android:textSize="20dp"
-                android:background="@drawable/button_round"/>
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                android:background="@drawable/button_round"
+                android:backgroundTint="@color/user_button"/>
 
             <Button
                 android:id="@+id/btn_stop"
@@ -146,8 +149,10 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="타이머 멈춤"
-                android:textSize="20dp"
-                android:background="@drawable/button_round" />
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                android:background="@drawable/button_round"
+                android:backgroundTint="@color/user_button"/>
 
         </LinearLayout>
 
