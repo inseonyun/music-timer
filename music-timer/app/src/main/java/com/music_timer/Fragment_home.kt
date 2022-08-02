@@ -115,8 +115,7 @@ class Fragment_home : Fragment() {
             }
             else
             {
-                binding.etHour.isEnabled = true
-                binding.etMin.isEnabled = true
+                EditTextEnabled(true)
                 binding.tvSec.setText("00")
 
                 now_sec = 0
@@ -127,6 +126,11 @@ class Fragment_home : Fragment() {
         }
 
         return view
+    }
+
+    fun EditTextEnabled(enabled: Boolean) {
+        binding.etHour.isEnabled = enabled
+        binding.etMin.isEnabled = enabled
     }
 
     fun LimitChecker(et_time: EditText , limit_time: Int) {
@@ -151,8 +155,7 @@ class Fragment_home : Fragment() {
         countDownTimer = object: CountDownTimer(totalTime, 1000) {
             override fun onTick(p0: Long) {
                 // tic 중에는 텍스트 입력할 수 없도록 함
-                binding.etHour.isEnabled = false
-                binding.etMin.isEnabled = false
+                EditTextEnabled(false)
 
                 now_hour = p0 / (60 * 60 * 1000)
 
@@ -189,14 +192,15 @@ class Fragment_home : Fragment() {
             }
 
             override fun onFinish() {
-                binding.etHour.isEnabled = true
-                binding.etMin.isEnabled = true
+                // music stop
+                stop_music()
+
+                EditTextEnabled(true)
 
                 timer_run_checker = false
                 countDownTimer = null
 
-                // music stop
-                stop_music()
+                binding.proressbar.progress = 0
 
                 Toast.makeText(context, "타이머 종료", Toast.LENGTH_SHORT).show()
             }
