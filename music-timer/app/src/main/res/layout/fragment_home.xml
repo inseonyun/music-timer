@@ -137,7 +137,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="타이머 시작"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:background="@drawable/button_round"/>
 
             <Button
                 android:id="@+id/btn_stop"
@@ -145,7 +146,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="타이머 멈춤"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:background="@drawable/button_round" />
 
         </LinearLayout>
 
