@@ -26,5 +26,8 @@
         <!-- 강조 색상 -->
         <item name="colorAccent">@color/main_color</item>
 
+        <!-- Edit Text 포커싱 됐을 때 밑줄 색 -->
+        <item name="colorControlActivated">@color/main_color</item>
+
     </style>
 </resources>
