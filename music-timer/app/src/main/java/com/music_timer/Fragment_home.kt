@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -191,7 +192,7 @@ class Fragment_home : Fragment() {
 
                 // set Progressbar
                 now_progress_value--
-                binding.proressbar.progress = (now_progress_value.toDouble() / first_progress_value.toDouble() * 100.0).toInt()
+                binding.proressbar.setProgress((now_progress_value.toDouble() / first_progress_value.toDouble() * 100.0).toInt(), true)
 
                 binding.etHour.setText(str_hour)
                 binding.etMin.setText(str_min)
@@ -207,7 +208,7 @@ class Fragment_home : Fragment() {
                 timer_run_checker = false
                 countDownTimer = null
 
-                binding.proressbar.progress = 0
+                binding.proressbar.setProgress(0, true)
 
                 Toast.makeText(context, "타이머 종료", Toast.LENGTH_SHORT).show()
             }
