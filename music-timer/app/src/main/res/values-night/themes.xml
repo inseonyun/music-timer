@@ -23,5 +23,8 @@
         <!-- 화면 배경 기본 컬러 -->
         <item name="android:windowBackground">@color/user_grey</item>
 
+        <!-- 강조 색상 -->
+        <item name="colorAccent">@color/main_color</item>
+
     </style>
 </resources>
