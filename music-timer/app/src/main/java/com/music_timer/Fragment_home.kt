@@ -60,14 +60,21 @@ class Fragment_home : Fragment() {
                     now_hour = binding.etHour.text.toString().toLong()
                     now_min = binding.etMin.text.toString().toLong()
 
-                    val totalTime = ((now_hour * 60 * 60 * 1000) + (now_min * 60 * 1000) + (now_sec * 1000))
+                    if(now_hour == 0L && now_min == 0L)
+                    {
+                        Toast.makeText(view.context, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
+                    }
+                    else
+                    {
+                        val totalTime = ((now_hour * 60 * 60 * 1000) + (now_min * 60 * 1000) + (now_sec * 1000))
 
-                    // set Progressbar
-                    first_progress_value = totalTime.toInt() / 1000
-                    now_progress_value = first_progress_value
-                    binding.proressbar.progress = 100
+                        // set Progressbar
+                        first_progress_value = totalTime.toInt() / 1000
+                        now_progress_value = first_progress_value
+                        binding.proressbar.progress = 100
 
-                    timer_start(totalTime)
+                        timer_start(totalTime)
+                    }
                 }
                 else
                 {
