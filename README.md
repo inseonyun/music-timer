@@ -1,5 +1,12 @@
 ## Music Timer App - 음악 끄기 타이머 앱
 
+## 대표 이미지
+<p orientaion=horizontal>
+  <img src=img/app-img/App-main.jpg height=500>
+  <img src=img/app-img/processing.jpg height=500>>
+  <img src=img/app-img/music-stop.gif height=500>
+</p>
+
 ## 개요
 + 안드로이드 - Galaxy 휴대폰 환경에서 'Youtube Music' 사용 중 불편함을 느낀 음악 끄기 타이머 기능이 앱에도, One UI 상에도 존재하지 않아 고안하게 되었다.
 + 이 앱은 사용자가 지정한 시간이 경과되면 자동으로 음악을 종료한다.
