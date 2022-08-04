@@ -3,7 +3,7 @@
 ## 대표 이미지
 <p orientaion=horizontal>
   <img src=img/app-img/App-main.jpg height=500>
-  <img src=img/app-img/processing.jpg height=500>>
+  <img src=img/app-img/processing.jpg height=500>
   <img src=img/app-img/music-stop.gif height=500>
 </p>
 
