@@ -1,11 +1,17 @@
 package com.music_timer
 
+import android.app.Activity
+import android.app.ActivityManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +20,7 @@ import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.music_timer.databinding.FragmentHomeBinding
 
 class Fragment_home : Fragment() {
@@ -36,12 +43,23 @@ class Fragment_home : Fragment() {
     var first_progress_value = 0
     var now_progress_value = 0
 
+
+    var intent: Intent? = null
+    var test_value: Int = 0
+    override fun onResume() {
+        super.onResume()
+
+        Log.i("info", "resume")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        activity?.let{register(it)}
 
         // editText 숫자 제한 처리 : 23시 초과 안 됨, 분의 경우 59 초과 안 됨
         binding.etHour.addTextChangedListener {
@@ -53,6 +71,15 @@ class Fragment_home : Fragment() {
 
         // 타이머 시작 이벤트 처리
         binding.btnStart.setOnClickListener {
+            binding.proressbar.progress = 100
+
+            intent = Intent(activity, TimerService::class.java)
+            intent!!.putExtra("input_hour", binding.etHour.text.toString().toInt())
+            intent!!.putExtra("input_min", binding.etMin.text.toString().toInt())
+
+            activity?.startForegroundService(intent)
+        }
+        /*
             // 중복 실행 방지
             if(countDownTimer != null) {
                 // 만약 input 값이 있는데 countDonwTimer가 null이 아니라면 멈춤 한 것이므로 다시 시작하도록 함
@@ -131,9 +158,51 @@ class Fragment_home : Fragment() {
                 timer_run_checker = false
                 countDownTimer!!.cancel()
             }
-        }
+        } */
 
         return view
+    }
+
+    private fun register(ctx: Context) {
+        LocalBroadcastManager.getInstance(ctx).registerReceiver(
+            testReceiver, IntentFilter("TimerService")
+        )
+    }
+
+    fun unRegister(ctx: Context) {
+        LocalBroadcastManager.getInstance(ctx).registerReceiver(
+            testReceiver, IntentFilter("TimerService")
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.let { unRegister(it) }
+    }
+
+    private val testReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val int_progress_value = intent?.getIntExtra("int_progress_value", -1)
+            val str_hour = intent?.getStringExtra("str_hour")
+            val str_min = intent?.getStringExtra("str_min")
+            val str_sec = intent?.getStringExtra("str_sec")
+
+            if(int_progress_value != -1) {
+                binding.proressbar.setProgress(int_progress_value, true)
+            }
+
+            if(!str_hour.equals("") && !str_hour.isNullOrEmpty()) {
+                binding.etHour.setText(str_hour)
+            }
+
+            if(!str_min.equals("") && !str_min.isNullOrEmpty()) {
+                binding.etMin.setText(str_min)
+            }
+
+            if(!str_sec.equals("") && !str_sec.isNullOrEmpty()) {
+                binding.tvSec.setText(str_sec)
+            }
+        }
     }
 
     fun EditTextEnabled(enabled: Boolean) {
