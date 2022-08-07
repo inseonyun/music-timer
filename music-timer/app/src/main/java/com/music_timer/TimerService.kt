@@ -38,13 +38,13 @@ class TimerService : Service() {
             val serviceChannel = NotificationChannel(
                 NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID,
                 "음악 타이머",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_LOW
             )
             val manager = getSystemService(NotificationManager::class.java)!!
             manager!!.createNotificationChannel(serviceChannel)
 
             val notificationIntent = Intent(this, MainActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0)
+            val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             val notification: Notification = Notification.Builder(this, NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle("음악 타이머 동작중")
                 .setContentText("알림 설명")
