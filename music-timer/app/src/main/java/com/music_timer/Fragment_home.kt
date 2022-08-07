@@ -28,28 +28,15 @@ class Fragment_home : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    // create countDownTimer
-    var countDownTimer: CountDownTimer? = null
-
     // timer run checker
     var timer_run_checker: Boolean = false
 
-    // now time
-    var now_hour: Long = 0
-    var now_min: Long = 0
-    var now_sec: Long = 0
-
-    // progress Value
-    var first_progress_value = 0
-    var now_progress_value = 0
-
-
     var intent: Intent? = null
-    var test_value: Int = 0
+
     override fun onResume() {
         super.onResume()
 
-        Log.i("info", "resume")
+        AllEnabled(true)
     }
 
     override fun onCreateView(
@@ -58,6 +45,8 @@ class Fragment_home : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val view = binding.root
+
+        AllEnabled(false)
 
         activity?.let{register(it)}
 
@@ -71,72 +60,38 @@ class Fragment_home : Fragment() {
 
         // 타이머 시작 이벤트 처리
         binding.btnStart.setOnClickListener {
-            binding.proressbar.progress = 100
+            val input_hour = binding.etHour.text.toString()
+            val input_min = binding.etMin.text.toString()
 
-            intent = Intent(activity, TimerService::class.java)
-            intent!!.putExtra("input_hour", binding.etHour.text.toString().toInt())
-            intent!!.putExtra("input_min", binding.etMin.text.toString().toInt())
-
-            activity?.startForegroundService(intent)
-        }
-        /*
-            // 중복 실행 방지
-            if(countDownTimer != null) {
-                // 만약 input 값이 있는데 countDonwTimer가 null이 아니라면 멈춤 한 것이므로 다시 시작하도록 함
-                if(!binding.etHour.text.toString().equals("") && !binding.etMin.text.toString().equals("") && !timer_run_checker)
-                {
-                    now_hour = binding.etHour.text.toString().toLong()
-                    now_min = binding.etMin.text.toString().toLong()
-
-                    if(now_hour == 0L && now_min == 0L)
-                    {
-                        Toast.makeText(view.context, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
-                    }
-                    else
-                    {
-                        val totalTime = ((now_hour * 60 * 60 * 1000) + (now_min * 60 * 1000) + (now_sec * 1000))
-
-                        // set Progressbar
-                        first_progress_value = totalTime.toInt() / 1000
-                        now_progress_value = first_progress_value
-                        binding.proressbar.progress = 100
-
-                        timer_start(totalTime)
-                    }
-                }
-                else
-                {
-                    Toast.makeText(view.context, "타이머가 아직 실행중입니다.\n멈추고 시작 해주세요.", Toast.LENGTH_SHORT).show()
-                }
+            if((input_hour.equals("") && input_min.equals("") ) || (input_hour.isNullOrEmpty() && input_min.isNullOrEmpty()))
+            {
+                Toast.makeText(view.context, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
             }
             else
             {
-                val input_hour = binding.etHour.text.toString()
-                val input_min = binding.etMin.text.toString()
-
-                if((input_hour == null || input_hour.equals("")) || (input_min == null || input_min.equals("")))
+                if(timer_run_checker)
                 {
-                    Toast.makeText(view.context, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(view.context, "타이머가 아직 실행중입니다.\n멈추고 시작 해주세요.", Toast.LENGTH_SHORT).show()
                 }
                 else
                 {
-                    val int_hour = Integer.parseInt(input_hour)
-                    val int_min = Integer.parseInt(input_min)
+                    val int_input_hour = input_hour.toInt()
+                    val int_input_min = input_min.toInt()
 
-                    if(int_hour == 0 && int_min == 0)
+                    if(int_input_hour == 0 && int_input_min == 0)
                     {
                         Toast.makeText(view.context, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
                     }
                     else
                     {
-                        val totalTime = ((int_hour * 60 * 60 * 1000) + (int_min * 60 * 1000)).toLong()
-
-                        // set Progressbar
-                        first_progress_value = totalTime.toInt() / 1000
-                        now_progress_value = first_progress_value
+                        timer_run_checker = true
                         binding.proressbar.progress = 100
 
-                        timer_start(totalTime)
+                        intent = Intent(activity, TimerService::class.java)
+                        intent!!.putExtra("input_hour", binding.etHour.text.toString().toInt())
+                        intent!!.putExtra("input_min", binding.etMin.text.toString().toInt())
+
+                        activity?.startForegroundService(intent)
                     }
                 }
             }
@@ -144,7 +99,7 @@ class Fragment_home : Fragment() {
 
         // 타이머 멈춤 이벤트 처리
         binding.btnStop.setOnClickListener {
-            if(countDownTimer == null)
+            if(!timer_run_checker)
             {
                 Toast.makeText(view.context, "타이머를 먼저 실행해주세요.", Toast.LENGTH_SHORT).show()
             }
@@ -153,25 +108,25 @@ class Fragment_home : Fragment() {
                 EditTextEnabled(true)
                 binding.tvSec.setText("00")
 
-                now_sec = 0
-
                 timer_run_checker = false
-                countDownTimer!!.cancel()
+
+                intent = Intent(activity, TimerService::class.java)
+                activity?.stopService(intent)
             }
-        } */
+        }
 
         return view
     }
 
     private fun register(ctx: Context) {
         LocalBroadcastManager.getInstance(ctx).registerReceiver(
-            testReceiver, IntentFilter("TimerService")
+            TimerReceiver, IntentFilter("TimerService")
         )
     }
 
     fun unRegister(ctx: Context) {
         LocalBroadcastManager.getInstance(ctx).registerReceiver(
-            testReceiver, IntentFilter("TimerService")
+            TimerReceiver, IntentFilter("TimerService")
         )
     }
 
@@ -180,27 +135,43 @@ class Fragment_home : Fragment() {
         activity?.let { unRegister(it) }
     }
 
-    private val testReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+    private val TimerReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+            timer_run_checker = true
+
             val int_progress_value = intent?.getIntExtra("int_progress_value", -1)
             val str_hour = intent?.getStringExtra("str_hour")
             val str_min = intent?.getStringExtra("str_min")
             val str_sec = intent?.getStringExtra("str_sec")
 
-            if(int_progress_value != -1) {
+            if(int_progress_value != -1)
+            {
                 binding.proressbar.setProgress(int_progress_value, true)
             }
 
-            if(!str_hour.equals("") && !str_hour.isNullOrEmpty()) {
+            if(!str_hour.equals("") && !str_hour.isNullOrEmpty())
+            {
                 binding.etHour.setText(str_hour)
             }
 
-            if(!str_min.equals("") && !str_min.isNullOrEmpty()) {
+            if(!str_min.equals("") && !str_min.isNullOrEmpty())
+            {
                 binding.etMin.setText(str_min)
             }
 
-            if(!str_sec.equals("") && !str_sec.isNullOrEmpty()) {
+            if(!str_sec.equals("") && !str_sec.isNullOrEmpty())
+            {
                 binding.tvSec.setText(str_sec)
+            }
+
+            if(int_progress_value == 0)
+            {
+                timer_run_checker = false
+                EditTextEnabled(true)
+            }
+            else
+            {
+                EditTextEnabled(false)
             }
         }
     }
@@ -208,6 +179,14 @@ class Fragment_home : Fragment() {
     fun EditTextEnabled(enabled: Boolean) {
         binding.etHour.isEnabled = enabled
         binding.etMin.isEnabled = enabled
+    }
+
+    fun AllEnabled(enabled: Boolean) {
+        binding.etHour.isEnabled = enabled
+        binding.etMin.isEnabled = enabled
+
+        binding.btnStop.isEnabled = enabled
+        binding.btnStart.isEnabled = enabled
     }
 
     fun LimitChecker(et_time: EditText , limit_time: Int) {
@@ -224,76 +203,5 @@ class Fragment_home : Fragment() {
                     et_time.setSelection(et_time.length())
                 }
             }
-    }
-
-    fun timer_start(totalTime: Long) {
-        timer_run_checker = true
-
-        countDownTimer = object: CountDownTimer(totalTime, 1000) {
-            override fun onTick(p0: Long) {
-                // tic 중에는 텍스트 입력할 수 없도록 함
-                EditTextEnabled(false)
-
-                now_hour = p0 / (60 * 60 * 1000)
-
-                var tmp_min = p0 - now_hour * 60 * 60 * 1000
-                now_min = tmp_min / (60 * 1000)
-
-                var tmp_sec = tmp_min - now_min * 60 * 1000
-                now_sec = tmp_sec / 1000
-
-                var str_hour = now_hour.toString()
-                var str_min = now_min.toString()
-                var str_sec = now_sec.toString()
-
-                if(str_hour.length == 1)
-                {
-                    str_hour = "0" + str_hour
-                }
-                if(str_min.length == 1)
-                {
-                    str_min = "0" + str_min
-                }
-                if(str_sec.length == 1)
-                {
-                    str_sec = "0" + str_sec
-                }
-
-                // set Progressbar
-                now_progress_value--
-                binding.proressbar.setProgress((now_progress_value.toDouble() / first_progress_value.toDouble() * 100.0).toInt(), true)
-
-                binding.etHour.setText(str_hour)
-                binding.etMin.setText(str_min)
-                binding.tvSec.setText(str_sec)
-            }
-
-            override fun onFinish() {
-                // music stop
-                stop_music()
-
-                EditTextEnabled(true)
-
-                timer_run_checker = false
-                countDownTimer = null
-
-                binding.proressbar.setProgress(0, true)
-
-                Toast.makeText(context, "타이머 종료", Toast.LENGTH_SHORT).show()
-            }
-        }.start()
-    }
-
-    fun stop_music()
-    {
-        val mAudioManager: AudioManager = context?.applicationContext?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        mAudioManager.requestAudioFocus(AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN) // 오디오 포커스를 영속적으로 획득
-            .setAudioAttributes(AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .build())
-            .setAcceptsDelayedFocusGain(true)
-            .setOnAudioFocusChangeListener {} // 위 소스와 마찬가지 이유로 listner 구현 안함.
-            .build())
     }
 }

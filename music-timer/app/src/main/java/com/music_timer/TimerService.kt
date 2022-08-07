@@ -17,9 +17,6 @@ class TimerService : Service() {
     // create countDownTimer
     var countDownTimer: CountDownTimer? = null
 
-    // timer run checker
-    var timer_run_checker: Boolean = false
-
     // now time
     var now_hour: Long = 0
     var now_min: Long = 0
@@ -71,39 +68,25 @@ class TimerService : Service() {
         throw UnsupportedOperationException()
     }
 
+    // 서비스 종료 될 때 타이머 멈춤 처리
+    override fun onDestroy() {
+        super.onDestroy()
+
+        countDownTimer!!.cancel()
+    }
+
     // countdownTimer
     fun set_timer(input_hour: Int, input_min: Int) {
-        // 중복 실행 방지
+        totalTime = ((input_hour * 60 * 60 * 1000) + (input_min * 60 * 1000)).toLong()
 
-        if((input_hour == null || input_hour.equals("")) || (input_min == null || input_min.equals("")))
-        {
-            Toast.makeText(applicationContext, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
-        }
-        else
-        {
-            if(input_hour == 0 && input_min == 0)
-            {
-                Toast.makeText(applicationContext, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
-            }
-            else
-            {
-                totalTime = ((input_hour * 60 * 60 * 1000) + (input_min * 60 * 1000)).toLong()
-
-                // set Progressbar
-                first_progress_value = totalTime.toInt() / 1000
-                now_progress_value = first_progress_value
-                //binding.proressbar.progress = 100
-            }
-        }
+        // set Progress
+        first_progress_value = totalTime.toInt() / 1000
+        now_progress_value = first_progress_value
     }
-    fun start_timer(totalTime: Long) {
-        timer_run_checker = true
 
+    fun start_timer(totalTime: Long) {
         countDownTimer = object : CountDownTimer(totalTime, 1000) {
             override fun onTick(p0: Long) {
-                // tic 중에는 텍스트 입력할 수 없도록 함
-                //EditTextEnabled(false)
-
                 now_hour = p0 / (60 * 60 * 1000)
 
                 var tmp_min = p0 - now_hour * 60 * 60 * 1000
@@ -143,14 +126,10 @@ class TimerService : Service() {
 
             override fun onFinish() {
                 stop_music()
-                stopSelf()
-
-                timer_run_checker = false
-                countDownTimer = null
-
-                //binding.proressbar.setProgress(0, true)
 
                 Toast.makeText(applicationContext, "타이머 종료", Toast.LENGTH_SHORT).show()
+
+                stopSelf()
             }
         }.start()
     }
@@ -166,7 +145,7 @@ class TimerService : Service() {
                         .setUsage(AudioAttributes.USAGE_MEDIA)
                         .build())
                 .setAcceptsDelayedFocusGain(true)
-                .setOnAudioFocusChangeListener {} // 위 소스와 마찬가지 이유로 listner 구현 안함.
+                .setOnAudioFocusChangeListener {}
                 .build())
     }
 
