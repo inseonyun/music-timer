@@ -1,4 +1,4 @@
-package com.music_timer
+package com.media_music_timer
 
 import android.app.*
 import android.content.Context

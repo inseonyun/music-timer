@@ -1,4 +1,4 @@
-package com.music_timer
+package com.media_music_timer
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

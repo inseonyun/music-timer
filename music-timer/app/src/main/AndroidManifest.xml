@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.music_timer">
+    package="com.media_music_timer">
 
     <!-- use service permission  -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
@@ -13,12 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Musictimer">
         <service
-            android:name=".TimerService"
+            android:name="com.media_music_timer.TimerService"
             android:enabled="true"
             android:exported="true"></service>
 
         <activity
-            android:name=".MainActivity"
+            android:name="com.media_music_timer.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

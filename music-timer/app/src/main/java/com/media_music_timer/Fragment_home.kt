@@ -1,27 +1,19 @@
-package com.music_timer
+package com.media_music_timer
 
-import android.app.Activity
-import android.app.ActivityManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.media.AudioAttributes
-import android.media.AudioFocusRequest
-import android.media.AudioManager
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import com.music_timer.databinding.FragmentHomeBinding
+import com.media_music_timer.databinding.FragmentHomeBinding
 
 class Fragment_home : Fragment() {
     // ViewBinding
