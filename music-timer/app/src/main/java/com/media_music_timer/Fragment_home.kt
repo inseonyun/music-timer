@@ -55,7 +55,7 @@ class Fragment_home : Fragment() {
             val input_hour = binding.etHour.text.toString()
             val input_min = binding.etMin.text.toString()
 
-            if((input_hour.equals("") && input_min.equals("") ) || (input_hour.isNullOrEmpty() && input_min.isNullOrEmpty()))
+            if((input_hour.equals("") || input_min.equals("") ) || (input_hour.isNullOrEmpty() || input_min.isNullOrEmpty()))
             {
                 Toast.makeText(view.context, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
             }
