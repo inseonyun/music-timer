@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Musictimer">
+
         <service
             android:name="com.media_music_timer.TimerService"
             android:enabled="true"
@@ -19,7 +20,8 @@
 
         <activity
             android:name="com.media_music_timer.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
