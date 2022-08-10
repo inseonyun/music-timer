@@ -43,7 +43,11 @@ class TimerService : Service() {
             val manager = getSystemService(NotificationManager::class.java)!!
             manager!!.createNotificationChannel(serviceChannel)
 
+            // 중복 실행 방지 setAction, add Category, Flag
             val notificationIntent = Intent(this, MainActivity::class.java)
+                .setAction(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_LAUNCHER)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
             val notification: Notification = Notification.Builder(this, NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
                 .setContentTitle("음악 타이머 동작중")
