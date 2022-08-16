@@ -1,5 +1,8 @@
 ## Music Timer App - 음악 끄기 타이머 앱
 
+## 구글 Play Store 2022. 08. 16. 출시
++ [[Play Store 바로가기]](https://play.google.com/store/apps/details?id=com.media_music_timer)
+
 ## 대표 이미지
 <p orientaion=horizontal>
   <img src=img/app-img/App-main.jpg height=500>
