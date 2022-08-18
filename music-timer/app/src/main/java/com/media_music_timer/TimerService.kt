@@ -29,6 +29,10 @@ class TimerService : Service() {
     // data send intent
     var totalTime = 0L
 
+    var notification: Notification ?= null
+    var notificationBuilder: Notification.Builder ?= null
+    var notificationManager: NotificationManager ?= null
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if(intent == null){
             return START_STICKY
@@ -40,8 +44,8 @@ class TimerService : Service() {
                 "음악 타이머",
                 NotificationManager.IMPORTANCE_LOW
             )
-            val manager = getSystemService(NotificationManager::class.java)!!
-            manager!!.createNotificationChannel(serviceChannel)
+            notificationManager = getSystemService(NotificationManager::class.java)!!
+            notificationManager!!.createNotificationChannel(serviceChannel)
 
             // 중복 실행 방지 setAction, add Category, Flag
             val notificationIntent = Intent(this, MainActivity::class.java)
@@ -49,12 +53,13 @@ class TimerService : Service() {
                 .addCategory(Intent.CATEGORY_LAUNCHER)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
-            val notification: Notification = Notification.Builder(this, NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
-                .setContentTitle("음악 타이머 동작중")
-                .setContentText("알림 설명")
-                .setSmallIcon(R.drawable.notification_ic_launcher)
-                .setContentIntent(pendingIntent)
-                .build()
+            notificationBuilder = Notification.Builder(this, NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
+                    .setContentTitle("음악 타이머 동작중")
+                    .setContentText("알림 설명")
+                    .setSmallIcon(R.drawable.notification_ic_launcher)
+                    .setContentIntent(pendingIntent)
+
+            notification = notificationBuilder?.build()
 
             startForeground(1, notification)
 
@@ -118,6 +123,10 @@ class TimerService : Service() {
 
                 val progress_percent_value =
                     (now_progress_value.toDouble() / first_progress_value.toDouble() * 100.0).toInt()
+
+                notificationBuilder?.setContentText(str_hour + ":" + str_min + ":" + str_sec)
+
+                notificationManager?.notify(1, notification)
 
                 val it: Intent = Intent("TimerService")
                 it.putExtra("int_progress_value", progress_percent_value)
