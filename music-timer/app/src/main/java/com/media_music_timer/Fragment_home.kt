@@ -26,11 +26,6 @@ class Fragment_home : Fragment() {
 
     var intent: Intent? = null
 
-    override fun onStart() {
-        super.onStart()
-        AllEnabled(true)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -111,6 +106,7 @@ class Fragment_home : Fragment() {
     }
 
     private fun register(ctx: Context) {
+        AllEnabled(true)
         LocalBroadcastManager.getInstance(ctx).registerReceiver(
             TimerReceiver, IntentFilter("TimerService")
         )
@@ -158,6 +154,10 @@ class Fragment_home : Fragment() {
 
             if(int_progress_value == 0)
             {
+                binding.etHour.setText("")
+                binding.etMin.setText("")
+                binding.tvSec.setText("00")
+
                 timer_run_checker = false
                 EditTextEnabled(true)
             }
