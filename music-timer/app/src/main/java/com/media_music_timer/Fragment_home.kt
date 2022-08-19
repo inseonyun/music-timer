@@ -49,6 +49,7 @@ class Fragment_home : Fragment() {
         binding.btnStart.setOnClickListener {
             val input_hour = binding.etHour.text.toString()
             val input_min = binding.etMin.text.toString()
+            val input_sec = binding.tvSec.text.toString()
 
             if((input_hour.equals("") || input_min.equals("") ) || (input_hour.isNullOrEmpty() || input_min.isNullOrEmpty()))
             {
@@ -64,8 +65,9 @@ class Fragment_home : Fragment() {
                 {
                     val int_input_hour = input_hour.toInt()
                     val int_input_min = input_min.toInt()
+                    val int_input_sec = input_sec.toInt()
 
-                    if(int_input_hour == 0 && int_input_min == 0)
+                    if(int_input_hour == 0 && int_input_min == 0 && int_input_sec == 0)
                     {
                         Toast.makeText(view.context, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
                     }
@@ -77,6 +79,7 @@ class Fragment_home : Fragment() {
                         intent = Intent(activity, TimerService::class.java)
                         intent!!.putExtra("input_hour", binding.etHour.text.toString().toInt())
                         intent!!.putExtra("input_min", binding.etMin.text.toString().toInt())
+                        intent!!.putExtra("input_sec", binding.tvSec.text.toString().toInt())
 
                         activity?.startForegroundService(intent)
                     }
@@ -93,7 +96,6 @@ class Fragment_home : Fragment() {
             else
             {
                 EditTextEnabled(true)
-                binding.tvSec.setText("00")
 
                 timer_run_checker = false
 

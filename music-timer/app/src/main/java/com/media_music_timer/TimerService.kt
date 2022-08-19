@@ -65,8 +65,9 @@ class TimerService : Service() {
 
             val input_hour = intent.getIntExtra("input_hour", 0)
             val input_min = intent.getIntExtra("input_min", 0)
+            val input_sec = intent.getIntExtra("input_sec", 0)
 
-            set_timer(input_hour, input_min)
+            set_timer(input_hour, input_min, input_sec)
             start_timer(totalTime)
         }
 
@@ -85,8 +86,8 @@ class TimerService : Service() {
     }
 
     // countdownTimer
-    fun set_timer(input_hour: Int, input_min: Int) {
-        totalTime = ((input_hour * 60 * 60 * 1000) + (input_min * 60 * 1000)).toLong()
+    fun set_timer(input_hour: Int, input_min: Int, input_sec: Int) {
+        totalTime = ((input_hour * 60 * 60 * 1000) + (input_min * 60 * 1000) + (input_sec * 1000)).toLong()
 
         // set Progress
         first_progress_value = totalTime.toInt() / 1000
