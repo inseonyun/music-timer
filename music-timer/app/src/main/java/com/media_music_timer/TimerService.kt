@@ -6,11 +6,14 @@ import android.content.Intent
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.os.Binder
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
+import android.util.Log
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
+import java.util.*
 
 
 class TimerService : Service() {
@@ -47,6 +50,10 @@ class TimerService : Service() {
             notificationManager = getSystemService(NotificationManager::class.java)!!
             notificationManager!!.createNotificationChannel(serviceChannel)
 
+            // 타이머 취소 인텐트 생성
+            val timerCancelIntent = Intent(this, CancelNotificationBroadCastReceiver::class.java)
+            val ptimerCancelIntent = PendingIntent.getBroadcast(this, 0, timerCancelIntent, PendingIntent.FLAG_IMMUTABLE)
+
             // 중복 실행 방지 setAction, add Category, Flag
             val notificationIntent = Intent(this, MainActivity::class.java)
                 .setAction(Intent.ACTION_MAIN)
@@ -58,6 +65,7 @@ class TimerService : Service() {
                     .setContentText("알림 설명")
                     .setSmallIcon(R.drawable.notification_ic_launcher)
                     .setContentIntent(pendingIntent)
+                    .addAction(1, "타이머 취소", ptimerCancelIntent)
 
             notification = notificationBuilder?.build()
 
@@ -82,6 +90,10 @@ class TimerService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
+        val it: Intent = Intent("TimerCancelService")
+
+        it.putExtra("finish", true)
+        LocalBroadcastManager.getInstance(this).sendBroadcast(it)
         countDownTimer!!.cancel()
     }
 

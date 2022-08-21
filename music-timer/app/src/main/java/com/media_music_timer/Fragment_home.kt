@@ -95,12 +95,7 @@ class Fragment_home : Fragment() {
             }
             else
             {
-                EditTextEnabled(true)
-
-                timer_run_checker = false
-
-                intent = Intent(activity, TimerService::class.java)
-                activity?.stopService(intent)
+                stopTimer()
             }
         }
 
@@ -112,17 +107,33 @@ class Fragment_home : Fragment() {
         LocalBroadcastManager.getInstance(ctx).registerReceiver(
             TimerReceiver, IntentFilter("TimerService")
         )
+        LocalBroadcastManager.getInstance(ctx).registerReceiver(
+            TimerCancelReceiver, IntentFilter("TimerCancelService")
+        )
     }
 
     fun unRegister(ctx: Context) {
         LocalBroadcastManager.getInstance(ctx).registerReceiver(
             TimerReceiver, IntentFilter("TimerService")
         )
+
+        LocalBroadcastManager.getInstance(ctx).registerReceiver(
+            TimerCancelReceiver, IntentFilter("TimerCancelService")
+        )
     }
 
     override fun onDestroy() {
         super.onDestroy()
         activity?.let { unRegister(it) }
+    }
+
+    private val TimerCancelReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if(intent?.getBooleanExtra("finish", false)) {
+                EditTextEnabled(true)
+                timer_run_checker = false
+            }
+        }
     }
 
     private val TimerReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -168,6 +179,15 @@ class Fragment_home : Fragment() {
                 EditTextEnabled(false)
             }
         }
+    }
+
+    fun stopTimer() {
+        EditTextEnabled(true)
+
+        timer_run_checker = false
+
+        intent = Intent(activity, TimerService::class.java)
+        activity?.stopService(intent)
     }
 
     fun EditTextEnabled(enabled: Boolean) {
