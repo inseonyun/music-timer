@@ -4,9 +4,12 @@
 + [[Play Store 바로가기]](https://play.google.com/store/apps/details?id=com.media_music_timer)
 
 ## 대표 이미지
-<p orientaion=horizontal>
-  <img src=img/app-img/App-main.jpg height=500>
-  <img src=img/app-img/processing.jpg height=500>
+<p orientaion=horizontal align=center>
+  <img src=img/[2022.08.21]app-img/app-main.jpg height=500>
+  <img src=img/[2022.08.21]app-img/app-main-timer-processing.jpg height=500>
+  <br>
+  <img src=img/[2022.08.21]app-img/app-main-notification.jpg height=500>
+  <img src=img/[2022.08.21]app-img/app-main-notification-extension.jpg height=500>
   <img src=img/app-img/music-stop.gif height=500>
 </p>
 
@@ -36,6 +39,8 @@
     7. Service를 이용하여 백그라운드에서 타이머 기능 수행하도록 함
     8. SDK 26버전 이상부터 백그라운드에서 서비스 수행 시 Notification이 필요하여 구현
     9. SDK 31버전 이상부터 Notification의 PaddingIntent Flag 값 조정 및 관련 라이브러리 implementation 
+    10. 타이머 실행중일 때 Notification에 남은 시간 구현
+    11. 타이머 실행중일 때 Notification 확장 시 타이머 취소 구현
     
   ### 2. 디자인
     1. 써클 프로그래스바 구현
@@ -46,6 +51,7 @@
     6. 메인 컬러 추가 및 강조, EditText 색상 변경
     7. 테마 EditText 포커싱 밑줄 색상 변경
     8. Notification용 아이콘 생성
+    9. Notification 알림창에 남은 타이머 시간 표시 및 타이머 취소 버튼 표시
 
 ## 발견된 이슈
 + 2022.08.03. 발생 - 타이머 실행 중 테마 모드(라이트 -> 다크 혹은 다크 -> 라이트) 변경 시 앱이 초기화 됨 
