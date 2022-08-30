@@ -47,11 +47,11 @@ class Fragment_home : Fragment() {
 
         // 타이머 시작 이벤트 처리
         binding.btnStart.setOnClickListener {
-            val input_hour = binding.etHour.text.toString()
-            val input_min = binding.etMin.text.toString()
+            var input_hour = binding.etHour.text.toString()
+            var input_min = binding.etMin.text.toString()
             val input_sec = binding.tvSec.text.toString()
 
-            if((input_hour.equals("") || input_min.equals("") ) || (input_hour.isNullOrEmpty() || input_min.isNullOrEmpty()))
+            if((input_hour.equals("") && input_min.equals("") ) || (input_hour.isNullOrEmpty() && input_min.isNullOrEmpty()))
             {
                 Toast.makeText(view.context, "시간을 설정해주세요.", Toast.LENGTH_SHORT).show()
             }
@@ -63,6 +63,17 @@ class Fragment_home : Fragment() {
                 }
                 else
                 {
+                    // 시, 분 둘 중 공백이 있으면 0으로 치환해줌
+                    if(input_hour.equals(""))
+                    {
+                        input_hour = "0"
+                    }
+
+                    if(input_min.equals(""))
+                    {
+                        input_min = "0"
+                    }
+
                     val int_input_hour = input_hour.toInt()
                     val int_input_min = input_min.toInt()
                     val int_input_sec = input_sec.toInt()
@@ -77,9 +88,9 @@ class Fragment_home : Fragment() {
                         binding.proressbar.progress = 100
 
                         intent = Intent(activity, TimerService::class.java)
-                        intent!!.putExtra("input_hour", binding.etHour.text.toString().toInt())
-                        intent!!.putExtra("input_min", binding.etMin.text.toString().toInt())
-                        intent!!.putExtra("input_sec", binding.tvSec.text.toString().toInt())
+                        intent!!.putExtra("input_hour", int_input_hour)
+                        intent!!.putExtra("input_min", int_input_min)
+                        intent!!.putExtra("input_sec", int_input_sec)
 
                         activity?.startForegroundService(intent)
                     }
