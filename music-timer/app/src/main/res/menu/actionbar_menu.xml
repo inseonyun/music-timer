@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menu_reset"
+        android:title="타이머 리셋"
+        android:icon="@drawable/ic_timer_reset"
+        app:showAsAction="always"/>
+
+</menu>

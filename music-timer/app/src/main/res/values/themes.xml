@@ -29,5 +29,8 @@
         <!-- Edit Text 포커싱 됐을 때 밑줄 색 -->
         <item name="colorControlActivated">@color/main_color</item>
 
+        <!-- drawble 색상 조정 -->
+        <item name="drawableTint">@color/user_grey</item>
+
     </style>
 </resources>

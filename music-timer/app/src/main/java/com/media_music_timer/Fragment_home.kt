@@ -190,6 +190,18 @@ class Fragment_home : Fragment() {
         activity?.stopService(intent)
     }
 
+    fun resetTimer() {
+        stopTimer()
+
+        binding.etHour.setText("")
+        binding.etMin.setText("")
+        binding.tvSec.setText("00")
+
+        binding.proressbar.setProgress(0, true)
+
+        Toast.makeText(context, "타이머가 초기화 되었습니다.", Toast.LENGTH_SHORT).show()
+    }
+
     fun EditTextEnabled(enabled: Boolean) {
         binding.etHour.isEnabled = enabled
         binding.etMin.isEnabled = enabled
