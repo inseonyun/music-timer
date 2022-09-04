@@ -41,6 +41,8 @@
     9. SDK 31버전 이상부터 Notification의 PaddingIntent Flag 값 조정 및 관련 라이브러리 implementation 
     10. 타이머 실행중일 때 Notification에 남은 시간 구현
     11. 타이머 실행중일 때 Notification 확장 시 타이머 취소 구현
+    12. 타이머 리셋 기능(Notification 실행 중이면 stop, 각 contents 초기화) 구현
+    13. 입력 값 시, 분 중 하나만 공백이어도 타이머 정상 동작하도록 함
     
   ### 2. 디자인
     1. 써클 프로그래스바 구현
@@ -52,6 +54,7 @@
     7. 테마 EditText 포커싱 밑줄 색상 변경
     8. Notification용 아이콘 생성
     9. Notification 알림창에 남은 타이머 시간 표시 및 타이머 취소 버튼 표시
+    10. Action Bar에 타이머 리셋 버튼 추가
 
 ## 발견된 이슈
 + 2022.08.03. 발생 - 타이머 실행 중 테마 모드(라이트 -> 다크 혹은 다크 -> 라이트) 변경 시 앱이 초기화 됨 
