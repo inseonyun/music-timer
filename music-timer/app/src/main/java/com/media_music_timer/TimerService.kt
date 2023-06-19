@@ -1,20 +1,21 @@
 package com.media_music_timer
 
-import android.app.*
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Icon
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
-import android.os.Binder
 import android.os.Build
 import android.os.CountDownTimer
 import android.os.IBinder
-import android.util.Log
 import android.widget.Toast
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import java.util.*
-
 
 class TimerService : Service() {
     // create countDownTimer
@@ -32,12 +33,12 @@ class TimerService : Service() {
     // data send intent
     var totalTime = 0L
 
-    var notification: Notification ?= null
-    var notificationBuilder: Notification.Builder ?= null
-    var notificationManager: NotificationManager ?= null
+    var notification: Notification? = null
+    var notificationBuilder: Notification.Builder? = null
+    var notificationManager: NotificationManager? = null
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if(intent == null){
+        if (intent == null) {
             return START_STICKY
         }
 
@@ -52,21 +53,31 @@ class TimerService : Service() {
 
             // 타이머 취소 인텐트 생성
             val timerCancelIntent = Intent(this, CancelNotificationBroadCastReceiver::class.java)
-            val ptimerCancelIntent = PendingIntent.getBroadcast(this, 0, timerCancelIntent, PendingIntent.FLAG_IMMUTABLE)
+            val ptimerCancelIntent =
+                PendingIntent.getBroadcast(this, 0, timerCancelIntent, PendingIntent.FLAG_IMMUTABLE)
 
             // 중복 실행 방지 setAction, add Category, Flag
             val notificationIntent = Intent(this, MainActivity::class.java)
                 .setAction(Intent.ACTION_MAIN)
                 .addCategory(Intent.CATEGORY_LAUNCHER)
                 .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            val pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
-            notificationBuilder = Notification.Builder(this, NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
+            val pendingIntent =
+                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
+            notificationBuilder =
+                Notification.Builder(this, NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
                     .setContentTitle("음악 타이머 동작중")
                     .setContentText("알림 설명")
                     .setSmallIcon(R.drawable.notification_ic_launcher)
                     .setContentIntent(pendingIntent)
-                    .addAction(1, "타이머 취소", ptimerCancelIntent)
-
+                    .addAction(
+                        Notification.Action.Builder(
+                            Icon.createWithResource(
+                                this,
+                                R.drawable.notification_ic_launcher
+                            ),
+                            "타이머 취소", ptimerCancelIntent
+                        ).build()
+                    )
             notification = notificationBuilder?.build()
 
             startForeground(1, notification)
@@ -99,7 +110,8 @@ class TimerService : Service() {
 
     // countdownTimer
     fun set_timer(input_hour: Int, input_min: Int, input_sec: Int) {
-        totalTime = ((input_hour * 60 * 60 * 1000) + (input_min * 60 * 1000) + (input_sec * 1000)).toLong()
+        totalTime =
+            ((input_hour * 60 * 60 * 1000) + (input_min * 60 * 1000) + (input_sec * 1000)).toLong()
 
         // set Progress
         first_progress_value = totalTime.toInt() / 1000
@@ -160,19 +172,20 @@ class TimerService : Service() {
         }.start()
     }
 
-    fun stop_music()
-    {
-        val mAudioManager: AudioManager = applicationContext?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+    fun stop_music() {
+        val mAudioManager: AudioManager =
+            applicationContext?.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         mAudioManager.requestAudioFocus(
             AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN) // 오디오 포커스를 영속적으로 획득
                 .setAudioAttributes(
                     AudioAttributes.Builder()
                         .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
                         .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build())
+                        .build()
+                )
                 .setAcceptsDelayedFocusGain(true)
                 .setOnAudioFocusChangeListener {}
-                .build())
+                .build()
+        )
     }
-
 }

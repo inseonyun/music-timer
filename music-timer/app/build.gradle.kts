@@ -5,23 +5,26 @@ plugins {
 }
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion "30.0.3"
+    compileSdk = 33
+    buildToolsVersion = "30.0.3"
 
     defaultConfig {
-        applicationId "com.media_music_timer"
-        minSdkVersion 26
-        targetSdkVersion 33
-        versionCode 6
-        versionName "1.2.0"
+        applicationId = "com.media_music_timer"
+        minSdk = 26
+        targetSdk = 33
+        versionCode = 6
+        versionName = "1.2.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        getByName("release") {
+            isMinifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
 
@@ -31,13 +34,15 @@ android {
     }
 
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
     }
 
-    buildFeatures {
-        // 뷰 바인딩 활성화
-        viewBinding true
-        dataBinding true
+    dataBinding {
+        enable = true
+    }
+
+    viewBinding {
+        enable = true
     }
 }
 
