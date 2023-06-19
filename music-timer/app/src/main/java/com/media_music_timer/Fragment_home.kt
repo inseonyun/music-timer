@@ -140,7 +140,7 @@ class Fragment_home : Fragment() {
 
     private val TimerCancelReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if(intent?.getBooleanExtra("finish", false)) {
+            if(intent.getBooleanExtra("finish", false)) {
                 EditTextEnabled(true)
                 timer_run_checker = false
             }
@@ -151,10 +151,10 @@ class Fragment_home : Fragment() {
         override fun onReceive(context: Context, intent: Intent) {
             timer_run_checker = true
 
-            val int_progress_value = intent?.getIntExtra("int_progress_value", -1)
-            val str_hour = intent?.getStringExtra("str_hour")
-            val str_min = intent?.getStringExtra("str_min")
-            val str_sec = intent?.getStringExtra("str_sec")
+            val int_progress_value = intent.getIntExtra("int_progress_value", -1)
+            val str_hour = intent.getStringExtra("str_hour")
+            val str_min = intent.getStringExtra("str_min")
+            val str_sec = intent.getStringExtra("str_sec")
 
             if(int_progress_value != -1)
             {
