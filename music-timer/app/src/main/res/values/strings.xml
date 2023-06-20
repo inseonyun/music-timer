@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">음악 타이머</string>
+
+    <string name="timer_toast_input">시간을 설정 해주세요</string>
+    <string name="timer_toast_timer_finish">타이머 종료</string>
+    <string name="timer_toast_please_timer_start">타이머를 먼저 실행해주세요</string>
+    <string name="timer_toast_timer_is_running">타이머가 아직 실행중입니다\n멈추고 시작 해주세요</string>
+    <string name="timer_toast_timer_is_reset">타이머가 초기화 되었습니다</string>
 </resources>

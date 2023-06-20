@@ -1,18 +1,20 @@
-package com.media_music_timer
+package com.media_music_timer.view
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.media_music_timer.R
+import com.media_music_timer.view.timer.TimerFragment
 
 class MainActivity : AppCompatActivity() {
-    var fragment_home: Fragment_home ? = null
+    var fragment_home: TimerFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        fragment_home = Fragment_home()
+        fragment_home = TimerFragment()
 
         // frame layout
         supportFragmentManager.beginTransaction()

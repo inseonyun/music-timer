@@ -16,12 +16,12 @@
         android:theme="@style/Theme.Musictimer">
 
         <service
-            android:name="com.media_music_timer.TimerService"
+            android:name="com.media_music_timer.view.timer.TimerService"
             android:enabled="true"
             android:exported="false" />
 
         <activity
-            android:name="com.media_music_timer.MainActivity"
+            android:name="com.media_music_timer.view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,7 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <receiver android:name=".CancelNotificationBroadCastReceiver"/>
+        <receiver android:name=".view.timer.CancelNotificationBroadCastReceiver"/>
     </application>
 
 </manifest>
