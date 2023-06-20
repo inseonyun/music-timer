@@ -12,6 +12,6 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
-rootProject.name = "android-shopping-order"
-include(":app")
 rootProject.name = "music-timer"
+include(":app")
+include(":domain")
