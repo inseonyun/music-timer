@@ -50,7 +50,7 @@ class TimerFragment : Fragment() {
             val progressValue = intent.getIntExtra(KEY_TIMER_SERVICE_PROGRESS, -1)
 
             if (progressValue != -1) {
-                binding.proressbar.setProgress(progressValue, true)
+                binding.progressbar.setProgress(progressValue, true)
             }
 
             setTime(time)
@@ -65,9 +65,7 @@ class TimerFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTimerBinding.inflate(inflater, container, false)
         return binding.root
@@ -141,7 +139,7 @@ class TimerFragment : Fragment() {
             }
 
             timerRunChecker = true
-            binding.proressbar.progress = 100
+            binding.progressbar.progress = 100
 
             intent = TimerService.createIntent(requireContext(), time)
             activity?.startForegroundService(intent)
@@ -173,9 +171,9 @@ class TimerFragment : Fragment() {
 
         binding.etHour.setText("")
         binding.etMin.setText("")
-        binding.tvSec.text = "00"
+        binding.tvSec.text = DEFAULT_ZERO_TEXT
 
-        binding.proressbar.setProgress(0, true)
+        binding.progressbar.setProgress(0, true)
         showToast(requireContext(), R.string.timer_toast_timer_is_reset)
     }
 
@@ -204,5 +202,9 @@ class TimerFragment : Fragment() {
         activity?.let { registerReceiver(it) }
         _binding = null
         intent = null
+    }
+
+    companion object {
+        private const val DEFAULT_ZERO_TEXT = "00"
     }
 }

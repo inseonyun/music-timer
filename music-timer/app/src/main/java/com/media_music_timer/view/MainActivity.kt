@@ -4,22 +4,36 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.media_music_timer.R
+import com.media_music_timer.databinding.ActivityMainBinding
 import com.media_music_timer.view.timer.TimerFragment
 
 class MainActivity : AppCompatActivity() {
-    var fragment_home: TimerFragment? = null
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
-        fragment_home = TimerFragment()
+        setFrameLayout()
+    }
 
-        // frame layout
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.frame_main, fragment_home!!)
-            .commit()
+    private fun setFrameLayout() {
+        val fragment = searchFragment(TAG_TIMER_FRAGMENT)
+
+        supportFragmentManager.commit {
+            replace(R.id.frame_main, fragment, TAG_TIMER_FRAGMENT)
+        }
+    }
+
+    private fun searchFragment(tag: String): Fragment {
+        supportFragmentManager.findFragmentByTag(tag)?.let {
+            return it
+        }
+        return TimerFragment()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -30,13 +44,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_reset -> { ResetTimer() }
+            R.id.menu_reset -> {
+                resetTimer()
+            }
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    fun ResetTimer() {
-        fragment_home!!.resetTimer()
+    private fun resetTimer() {
+        supportFragmentManager.findFragmentByTag(TAG_TIMER_FRAGMENT)?.let {
+            if (it is TimerFragment) {
+                it.resetTimer()
+            }
+        }
+    }
+
+    companion object {
+        private const val TAG_TIMER_FRAGMENT = "TAG_TIMER_FRAGMENT"
     }
 }

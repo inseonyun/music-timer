@@ -6,4 +6,12 @@
     <string name="timer_toast_please_timer_start">타이머를 먼저 실행해주세요</string>
     <string name="timer_toast_timer_is_running">타이머가 아직 실행중입니다\n멈추고 시작 해주세요</string>
     <string name="timer_toast_timer_is_reset">타이머가 초기화 되었습니다</string>
+
+    <string name="fragment_timer_hour_text">시</string>
+    <string name="fragment_timer_min_text">분</string>
+    <string name="fragment_timer_sec_text">초</string>
+    <string name="fragment_timer_hint_text">00</string>
+    <string name="fragment_timer_time_colon">:</string>
+    <string name="fragment_timer_button_start_text">타이머 시작</string>
+    <string name="fragment_timer_button_stop_text">타이머 멈춤</string>
 </resources>
