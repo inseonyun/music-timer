@@ -18,7 +18,9 @@ import com.media_music_timer.model.TimeModel
 import com.media_music_timer.model.TimeModel.Companion.toModel
 import com.media_music_timer.util.getParcelableCompat
 import com.media_music_timer.util.showToast
+import com.media_music_timer.view.timer.TimerService.Companion.INTENT_FILTER_TIMER_CANCEL_SERVICE
 import com.media_music_timer.view.timer.TimerService.Companion.INTENT_FILTER_TIMER_SERVICE
+import com.media_music_timer.view.timer.TimerService.Companion.KEY_TIMER_SERVICE_FINISH
 import com.media_music_timer.view.timer.TimerService.Companion.KEY_TIMER_SERVICE_PROGRESS
 import com.media_music_timer.view.timer.TimerService.Companion.KEY_TIMER_SERVICE_TIME
 import java.time.LocalTime
@@ -35,7 +37,9 @@ class TimerFragment : Fragment() {
 
     private val timerCancelReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            if (intent.getBooleanExtra("finish", false)) {
+            _binding ?: return
+
+            if (intent.getBooleanExtra(KEY_TIMER_SERVICE_FINISH, false)) {
                 setEnableAll(true)
                 timerRunChecker = false
             }
@@ -44,6 +48,8 @@ class TimerFragment : Fragment() {
 
     private val timerReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
+            _binding ?: return
+
             timerRunChecker = true
 
             val time = intent.getParcelableCompat<TimeModel>(KEY_TIMER_SERVICE_TIME) ?: return
@@ -86,7 +92,7 @@ class TimerFragment : Fragment() {
             timerReceiver, IntentFilter(INTENT_FILTER_TIMER_SERVICE)
         )
         LocalBroadcastManager.getInstance(context).registerReceiver(
-            timerCancelReceiver, IntentFilter("TimerCancelService")
+            timerCancelReceiver, IntentFilter(INTENT_FILTER_TIMER_CANCEL_SERVICE)
         )
     }
 

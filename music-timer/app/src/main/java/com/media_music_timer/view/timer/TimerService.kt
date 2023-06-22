@@ -72,6 +72,7 @@ class TimerService : Service() {
                     .setContentText("알림 설명")
                     .setSmallIcon(R.drawable.notification_ic_launcher)
                     .setContentIntent(pendingIntent)
+                    .setOngoing(true)
                     .addAction(
                         Notification.Action.Builder(
                             Icon.createWithResource(
@@ -102,11 +103,11 @@ class TimerService : Service() {
     override fun onDestroy() {
         super.onDestroy()
 
-        val it = Intent("TimerCancelService")
+        val it = Intent(INTENT_FILTER_TIMER_CANCEL_SERVICE)
 
-        it.putExtra("finish", true)
+        it.putExtra(KEY_TIMER_SERVICE_FINISH, true)
         LocalBroadcastManager.getInstance(this).sendBroadcast(it)
-        countDownTimer!!.cancel()
+        countDownTimer?.cancel()
     }
 
     // countdownTimer
@@ -175,9 +176,12 @@ class TimerService : Service() {
 
     companion object {
         internal const val INTENT_FILTER_TIMER_SERVICE = "INTENT_FILTER_TIMER_SERVICE"
+        internal const val INTENT_FILTER_TIMER_CANCEL_SERVICE = "INTENT_FILTER_TIMER_CANCEL_SERVICE"
+
         internal const val KEY_TIMER_SERVICE = "KEY_TIMER_SERVICE"
-        internal const val KEY_TIMER_SERVICE_PROGRESS = "KEY_TIMER_SERVICE_PROGRESS"
         internal const val KEY_TIMER_SERVICE_TIME = "KEY_TIMER_SERVICE_TIME"
+        internal const val KEY_TIMER_SERVICE_FINISH = "KEY_TIMER_SERVICE_FINISH"
+        internal const val KEY_TIMER_SERVICE_PROGRESS = "KEY_TIMER_SERVICE_PROGRESS"
 
         fun createIntent(
             context: Context,
@@ -185,7 +189,6 @@ class TimerService : Service() {
         ): Intent {
             val intent = Intent(context, TimerService::class.java)
             intent.putExtra(KEY_TIMER_SERVICE, time)
-            intent.action = "TimerService"
             return intent
         }
     }
