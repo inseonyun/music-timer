@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Music timer</string>
+
+    <string name="timer_toast_input">Please set the time</string>
+    <string name="timer_toast_timer_finish">End Timer</string>
+    <string name="timer_toast_please_timer_start">Run the timer first</string>
+    <string name="timer_toast_timer_is_running">Timer is still running\nPlease stop and start</string>
+    <string name="timer_toast_timer_is_reset">Timer has been reset</string>
+
+    <string name="fragment_timer_hour_text">Hour</string>
+    <string name="fragment_timer_min_text">Min</string>
+    <string name="fragment_timer_sec_text">Sec</string>
+    <string name="fragment_timer_hint_text">00</string>
+    <string name="fragment_timer_time_colon">:</string>
+    <string name="fragment_timer_button_start_text">Start</string>
+    <string name="fragment_timer_button_stop_text">Stop</string>
+</resources>
