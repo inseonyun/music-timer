@@ -7,7 +7,7 @@ import java.time.LocalTime
 
 @Parcelize
 data class TimeModel(
-    val time: LocalTime
+    val time: LocalTime,
 ) : Parcelable {
     companion object {
         fun TimeModel.toModel(): Time = Time(time)

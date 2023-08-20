@@ -3,11 +3,9 @@ package com.media_music_timer.view.timer
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Icon
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
@@ -23,7 +21,6 @@ import com.media_music_timer.model.TimeModel.Companion.toModel
 import com.media_music_timer.model.TimeModel.Companion.toUIModel
 import com.media_music_timer.util.getParcelableCompat
 import com.media_music_timer.util.showToast
-import com.media_music_timer.view.MainActivity
 
 class TimerService : Service() {
     // create countDownTimer
@@ -49,40 +46,13 @@ class TimerService : Service() {
             val serviceChannel = NotificationChannel(
                 NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID,
                 getString(R.string.app_name),
-                NotificationManager.IMPORTANCE_LOW
+                NotificationManager.IMPORTANCE_LOW,
             )
+
             notificationManager = getSystemService(NotificationManager::class.java)!!
             notificationManager!!.createNotificationChannel(serviceChannel)
 
-            // 타이머 취소 인텐트 생성
-            val timerCancelIntent = Intent(this, CancelNotificationBroadCastReceiver::class.java)
-            val ptimerCancelIntent =
-                PendingIntent.getBroadcast(this, 0, timerCancelIntent, PendingIntent.FLAG_IMMUTABLE)
-
-            // 중복 실행 방지 setAction, add Category, Flag
-            val notificationIntent = Intent(this, MainActivity::class.java)
-                .setAction(Intent.ACTION_MAIN)
-                .addCategory(Intent.CATEGORY_LAUNCHER)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            val pendingIntent =
-                PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE)
-            notificationBuilder =
-                Notification.Builder(this, NotificationManager.EXTRA_NOTIFICATION_CHANNEL_ID)
-                    .setContentTitle("음악 타이머 동작중")
-                    .setContentText("알림 설명")
-                    .setSmallIcon(R.drawable.notification_ic_launcher)
-                    .setContentIntent(pendingIntent)
-                    .setOngoing(true)
-                    .addAction(
-                        Notification.Action.Builder(
-                            Icon.createWithResource(
-                                this,
-                                R.drawable.notification_ic_launcher
-                            ),
-                            "타이머 취소", ptimerCancelIntent
-                        ).build()
-                    )
-            notification = notificationBuilder?.build()
+            notification = TimerNotification.getInstance(this).getNotificationBuilder()
 
             startForeground(1, notification)
 
@@ -152,20 +122,15 @@ class TimerService : Service() {
         mAudioManager.requestAudioFocus(
             AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN) // 오디오 포커스를 영속적으로 획득
                 .setAudioAttributes(
-                    AudioAttributes.Builder()
-                        .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                        .setUsage(AudioAttributes.USAGE_MEDIA)
-                        .build()
-                )
-                .setAcceptsDelayedFocusGain(true)
-                .setOnAudioFocusChangeListener {}
-                .build()
+                    AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
+                        .setUsage(AudioAttributes.USAGE_MEDIA).build(),
+                ).setAcceptsDelayedFocusGain(true).setOnAudioFocusChangeListener {}.build(),
         )
     }
 
     private fun createTimerIntent(
         progress: Int,
-        time: TimeModel
+        time: TimeModel,
     ): Intent {
         val intent = Intent(INTENT_FILTER_TIMER_SERVICE)
         intent.putExtra(KEY_TIMER_SERVICE_PROGRESS, progress)

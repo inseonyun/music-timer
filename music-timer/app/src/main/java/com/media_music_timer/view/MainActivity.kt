@@ -1,5 +1,7 @@
 package com.media_music_timer.view
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -62,5 +64,14 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG_TIMER_FRAGMENT = "TAG_TIMER_FRAGMENT"
+
+        fun createIntent(
+            context: Context,
+        ): Intent {
+            return Intent(context, MainActivity::class.java)
+                .setAction(Intent.ACTION_MAIN)
+                .addCategory(Intent.CATEGORY_LAUNCHER)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
     }
 }

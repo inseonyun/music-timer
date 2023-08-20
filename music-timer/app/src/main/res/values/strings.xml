@@ -14,4 +14,8 @@
     <string name="fragment_timer_time_colon">:</string>
     <string name="fragment_timer_button_start_text">타이머 시작</string>
     <string name="fragment_timer_button_stop_text">타이머 멈춤</string>
+
+    <string name="timer_notification_title_text">음악 타이머 동작중</string>
+    <string name="timer_notification_content_text">알림 설명</string>
+    <string name="timer_notification_cancel_text">타이머 취소</string>
 </resources>

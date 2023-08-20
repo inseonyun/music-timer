@@ -71,7 +71,9 @@ class TimerFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentTimerBinding.inflate(inflater, container, false)
         return binding.root
@@ -89,10 +91,12 @@ class TimerFragment : Fragment() {
 
     private fun registerReceiver(context: Context) {
         LocalBroadcastManager.getInstance(context).registerReceiver(
-            timerReceiver, IntentFilter(INTENT_FILTER_TIMER_SERVICE)
+            timerReceiver,
+            IntentFilter(INTENT_FILTER_TIMER_SERVICE),
         )
         LocalBroadcastManager.getInstance(context).registerReceiver(
-            timerCancelReceiver, IntentFilter(INTENT_FILTER_TIMER_CANCEL_SERVICE)
+            timerCancelReceiver,
+            IntentFilter(INTENT_FILTER_TIMER_CANCEL_SERVICE),
         )
     }
 

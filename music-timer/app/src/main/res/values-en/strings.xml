@@ -15,4 +15,8 @@
     <string name="fragment_timer_time_colon">:</string>
     <string name="fragment_timer_button_start_text">Start</string>
     <string name="fragment_timer_button_stop_text">Stop</string>
+
+    <string name="timer_notification_title_text">Running music timer</string>
+    <string name="timer_notification_content_text">Notification Information</string>
+    <string name="timer_notification_cancel_text">Cancel Timer</string>
 </resources>

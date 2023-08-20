@@ -9,7 +9,3 @@ fun showToast(
 ) {
     Toast.makeText(context, context.getString(stringId), Toast.LENGTH_SHORT).show()
 }
-
-fun showToast(context: Context, message: String) {
-    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-}
